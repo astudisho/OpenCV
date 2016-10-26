@@ -1,0 +1,10 @@
+sudo dnf install cmake python-devel numpy gcc gcc-c++
+
+sudo dnf install gtk2-devel libdc1394-devel libv4l-devel ffmpeg-devel gstreamer-pugins-base-devel
+
+sudo dnf install libpng-devel libjpeg-turbo-devel jasper-devel openexr-devel libtiff-devel libwebp-devel
+
+sudo dnf install tbb-devel eigen3-devel python-sphinx texlive
+
+sudo dnf install git
+
