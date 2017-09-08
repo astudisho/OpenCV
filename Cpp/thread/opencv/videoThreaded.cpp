@@ -8,11 +8,16 @@
 
 //using namespace cv;
 
+typedef unsigned char byte;
+
 using std::cout;
 using std::endl;
+using std::mutex;
 
-void mostrarFrame(cv::VideoCapture cap, const int &id);
+void mostrarFrame(int i);
+void mostrarFrame(cv::VideoCapture cap, int &id);
 void mostrarFrame(cv::VideoCapture cap);
+void ejecutaHilo(int i, cv::VideoCapture);
 
 void getInfo();
 const auto 	RESOLUCION = cv::Size(1280,720);
@@ -43,6 +48,56 @@ static short MAX_FRAME = 10000;
 
 */
 
+// int main (int argc, char **args)
+// {
+// 	short numHilos = 2;
+// 	//short numHilos = cv::getNumThreads();
+
+// 	const clock_t inicio = clock();
+// 	const double t = (double)cv::getTickCount();
+
+// 	//cout << "Argumentos" << args[1] << endl;
+
+// 	if (argc > 1)
+// 		cap = cv::VideoCapture(args[1]);
+
+// 	else
+// 		cap = cv::VideoCapture(0);
+
+// 	std::thread arregloHilos[numHilos];
+
+// 	if(!cap.isOpened())
+// 		return -1;
+
+	
+// 	for(unsigned short i = 0; i < numHilos; i++)
+// 	{
+// 		arregloHilos[i] = std::thread(mostrarFrame, cap, i);
+// 		cout << arregloHilos[i].get_id() << endl;
+// 	}
+
+// 	for(unsigned short i = 0; i < numHilos; i++)
+// 		arregloHilos[i].join();
+	
+
+// 	//mostrarFrame(cap);
+
+// 	cv::destroyAllWindows();
+
+// 	//getInfo();
+
+// 	const clock_t 	fin = clock();
+// 	const float 	transcurrido = float( fin - inicio ) /  (CLOCKS_PER_SEC );
+
+
+
+// 	cout << "Tiempo transcurrido: " << transcurrido << endl
+// 		 << "FPS reales: " << contador / transcurrido << endl
+// 		 << "Clocks per second " << CLOCKS_PER_SEC << endl;
+
+// 	return 0;  
+// }
+
 int main (int argc, char **args)
 {
 	short numHilos = 2;
@@ -64,19 +119,19 @@ int main (int argc, char **args)
 	if(!cap.isOpened())
 		return -1;
 
-	/*
+	
 	for(unsigned short i = 0; i < numHilos; i++)
 	{
-		arregloHilos[i] = std::thread(mostrarFrame, cap, i);
+		arregloHilos[i] = std::thread(mostrarFrame);
+		//arregloHilos[i] = std::thread(ejecutaHilo,(int)i, cap);
 		cout << arregloHilos[i].get_id() << endl;
 	}
 
 	for(unsigned short i = 0; i < numHilos; i++)
 		arregloHilos[i].join();
+	
 
-	*/
-
-	mostrarFrame(cap);
+	//mostrarFrame(cap);
 
 	cv::destroyAllWindows();
 
@@ -94,7 +149,10 @@ int main (int argc, char **args)
 	return 0;  
 }
 
-void mostrarFrame(cv::VideoCapture cap1,const int &id)
+void mostrarFrame(int i){}
+
+
+void mostrarFrame(cv::VideoCapture cap1, int &id)
 {
 	cv::Mat frame, original;
 	
@@ -192,4 +250,19 @@ void getInfo()
 		 << "POPCOUNT: " << cv::checkHardwareSupport(CV_CPU_POPCNT) << endl
 		 << "AVX: " << cv::checkHardwareSupport(CV_CPU_AVX) << endl
 		 << "AVX2: " << cv::checkHardwareSupport(CV_CPU_AVX2) << endl;
+}
+
+void ejecutaHilo(int i, cv::VideoCapture c)
+{
+	byte a = 6;
+
+	std::lock_guard<mutex> bloquea_hilo(bloqueoLectura);
+
+	{
+		byte a = 7;
+		
+		cout<<"Hola perras desde hilo " << i << endl;
+
+		cout << "a dentro " << a << endl;
+	}
 }

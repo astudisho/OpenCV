@@ -1,4 +1,4 @@
-#include algo.h
+#include <cv2/highgui.h>
 
 int main()
 {
