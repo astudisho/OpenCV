@@ -1,0 +1,2 @@
+/home/astudillo/Documents/OpenCv/Cpp/udp-image-streaming/CMakeFiles/client.dir
+/home/astudillo/Documents/OpenCv/Cpp/udp-image-streaming/CMakeFiles/server.dir
